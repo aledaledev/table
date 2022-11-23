@@ -4,8 +4,9 @@ import Form from './components/Form'
 import Table from './components/Table'
 
 const AppContainer = styled.div`
+  font-family: 'Rubik', sans-serif;
   width: 100%;
-  background:red;
+  background:#e1dbe7;
 `
 
 const App = () => {
