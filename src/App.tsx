@@ -11,7 +11,7 @@ const AppContainer = styled.div`
 
 const App = () => {
   return (
-    <AppContainer>
+    <AppContainer style={{height:'100%'}}>
       <Table/>
       <Form/>
     </AppContainer>
