@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import { Button, CreatedUser} from './Table'
+import { Button } from './Table'
 
 const FormCreateUsers = styled.form`
     max-width: 15rem;
@@ -14,7 +14,7 @@ const FormCreateUsers = styled.form`
     border-radius: 5px;
     border: 1px solid #cb88f1;
     & input {
-        padding: .8rem;
+        padding: .8rem; 
         font-size: .9rem;
         background-color: #f3e4f8;
         border: 1px solid #cb88f1;
@@ -42,22 +42,30 @@ interface FormState {
 const Form = () => {
 
   const [newUser, setNewUser] = useState<FormState['inputValues']>({
-    fullName:'',
+    fullName:'', 
     address:'',
-    phoneNumber: 0,
+    phoneNumber: '',
     email:''
   })
 
-  const handleSubmit = () => {}
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    createNewUser(newUser)
+  }
 
-  const handleChange = () => {}
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setNewUser({
+        ...newUser,
+        [e.target.name]: e.target.value
+    })
+  }
 
   return (
     <FormCreateUsers onSubmit={handleSubmit}>
-        <input type="text" value={newUser?.fullName} name='fullname' placeholder='fullname'/>
-        <input type="text" value={newUser?.address} name='address' placeholder='address'/>
-        <input type="number" value={newUser?.phoneNumber} name='phone' placeholder='phone'/>
-        <input type="text" value={newUser?.email} name='email' placeholder='email'/>
+        <input type="text" value={newUser?.fullName} onChange={handleChange} name='fullname' placeholder='fullname' required/>
+        <input type="text" value={newUser?.address} name='address' placeholder='address' required/>
+        <input type="number" value={newUser?.phoneNumber} name='phone' placeholder='phone' required/>
+        <input type="text" value={newUser?.email} name='email' placeholder='email' required/>
         <CreateButton>Create User</CreateButton>
     </FormCreateUsers>
   )

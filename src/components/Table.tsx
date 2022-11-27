@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import usersData from '../data/users.json'
 
 const TableUsers = styled.table`
-    background-color:#f8f4fa;
+    background-color:#f5e1ff;
     box-shadow: 0 0 18px 3px #69258b1c;
 `
 
@@ -38,7 +37,7 @@ const EditButton = styled(Button)`
 const HeadRow = styled.tr`
     background-color: #e8d5ff;
     & th{
-        outline: 1px solid #cb88f1;
+        outline: 1px solid #f6eefa;
         padding: .7rem .5rem;
         font-weight: 400;
         color: #5a4c63;
@@ -48,26 +47,15 @@ const HeadRow = styled.tr`
 const BodyRow = styled.tr`
     & td{
         font-size: .9rem;
-        outline: 1px solid #eee7f1;
+        outline: 1px solid #f6eefa;
         padding: .5rem .8rem; 
         font-weight: 300;
     }
 `
 
-export interface User {
-    id: number
-    fullName: string
-    address:string
-    email: string
-    phoneNumber: string | number
-}
-
-export type CreatedUser = Omit<User, 'id'>
-
-
 const Table = () => {
 
-  const [users, setUsers] = useState<Array<User>>(usersData)
+  
 
   return (
     <TableUsers>
@@ -81,17 +69,6 @@ const Table = () => {
             </HeadRow>
         </thead>
         <tbody>
-
-            <BodyRow>
-                <td>John</td>
-                <td>CA Smith 44</td>
-                <td>231-9127-7125</td>
-                <td>johnancito@gmail.com</td>
-                <td style={{display:'flex', gap:'.6rem'}}>
-                    <DeleteButton>Delete</DeleteButton>
-                    <EditButton>Edit</EditButton>
-                </td>
-            </BodyRow>
             {users.map(({id,fullName,address,email,phoneNumber}:User) => {
                 return (
                     <BodyRow key={id}>
