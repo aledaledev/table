@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useUser } from '../context/UserContext'
+import { User } from '../types/user'
 
 const TableUsers = styled.table`
     background-color:#f5e1ff;
@@ -55,7 +57,7 @@ const BodyRow = styled.tr`
 
 const Table = () => {
 
-  
+    const {users, deleteUser, editUser} = useUser()
 
   return (
     <TableUsers>
@@ -71,14 +73,14 @@ const Table = () => {
         <tbody>
             {users.map(({id,fullName,address,email,phoneNumber}:User) => {
                 return (
-                    <BodyRow key={id}>
+                    <BodyRow key={id} >
                     <td>{fullName}</td>
                     <td>{address}</td>
                     <td>{phoneNumber}</td>
                     <td>{email}</td>
                     <td style={{display:'flex', gap:'.6rem'}}>
-                        <DeleteButton>Delete</DeleteButton>
-                        <EditButton>Edit</EditButton>
+                        <DeleteButton onClick={() => deleteUser(id)}>Delete</DeleteButton>
+                        <EditButton onClick={() => editUser(id)}>Edit</EditButton>
                     </td>
                     </BodyRow>)
                 })

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Form from './components/Form'
 import Table from './components/Table'
+import { UserProvider } from './context/UserContext'
 
 const AppContainer = styled.div`
   font-family: 'Rubik', sans-serif;
@@ -11,10 +12,12 @@ const AppContainer = styled.div`
 
 const App = () => {
   return (
-    <AppContainer>
-      <Table/>
-      <Form/>
-    </AppContainer>
+    <UserProvider>
+      <AppContainer>
+        <Table/>
+        <Form/>
+      </AppContainer>
+    </UserProvider>
   )
 }
 

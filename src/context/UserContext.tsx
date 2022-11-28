@@ -1,31 +1,8 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 import usersData from '../data/users.json'
+import { CreatedUser, User, UserContext as clientContext, UserProviderProps } from "../types/user";
 
-type UserProviderProps = {
-    children: ReactNode
-}
-
-type UserContext = {
-    toggleCart: () => void
-    cartState: boolean
-    getItemQuantity: (id:number) => number
-    increaseCartQuantity: (id:number) => void
-    decreaseCartQuantity: (id:number) => void
-    removeFromCart: (id:number) => void
-    cartQuantity: number
-}
-
-export interface User {
-  id: number
-  fullName: string
-  address:string
-  email: string
-  phoneNumber: string | number
-}
-
-export type CreatedUser = Omit<User, 'id'>
-
-const UserContext = createContext({} as UserContext)
+const UserContext = createContext({} as clientContext)
 
 export function useUser() {
     return useContext(UserContext)
@@ -33,30 +10,31 @@ export function useUser() {
 
 export function UserProvider({children}: UserProviderProps) {
 
-    //const [cartItems, setCartItems] = useLocalStorage<CartItem[]>('shopping-cart',[])
-
     const [users, setUsers] = useState<Array<User>>(usersData)
 
-    const createNewUser = ({}) => {
+    const createNewUser = ({fullName,address,email,phoneNumber}:CreatedUser) => {
       setUsers([
         ...users,
         {
           id: Math.floor(Math.random()*1000),
-          fullName:'', 
-          address:'',
-          phoneNumber: '',
-          email:''
+          fullName, 
+          address,
+          phoneNumber,
+          email
         }
       ])
     }
 
-    const [cartState, setToggleCart] = useState(false)
-
-    const toggleCart = () => {
-        setToggleCart(!cartState)
+    const deleteUser = (id:Number) => {
+      const deletedUser = users.filter(user => user.id!==id) 
+      setUsers(deletedUser)
     }
 
-    return <UserContext.Provider value={{ toggleCart, cartState}}>
+    const editUser = (id:Number) => {
+      
+    }
+
+    return <UserContext.Provider value={{ createNewUser, users, deleteUser, editUser }}>
             {children}
         </UserContext.Provider>
 }

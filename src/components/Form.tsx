@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useUser } from '../context/UserContext'
+import { FormState } from '../types/user'
 import { Button } from './Table'
 
 const FormCreateUsers = styled.form`
@@ -35,11 +37,9 @@ const CreateButton = styled(Button)`
     }
 `
 
-interface FormState {
-    inputValues: CreatedUser
-}
-
 const Form = () => {
+
+  const {createNewUser} = useUser()
 
   const [newUser, setNewUser] = useState<FormState['inputValues']>({
     fullName:'', 
@@ -51,6 +51,12 @@ const Form = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     createNewUser(newUser)
+    setNewUser({
+        fullName:'', 
+        address:'',
+        phoneNumber: '',
+        email:''
+      })
   }
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -62,10 +68,10 @@ const Form = () => {
 
   return (
     <FormCreateUsers onSubmit={handleSubmit}>
-        <input type="text" value={newUser?.fullName} onChange={handleChange} name='fullname' placeholder='fullname' required/>
-        <input type="text" value={newUser?.address} name='address' placeholder='address' required/>
-        <input type="number" value={newUser?.phoneNumber} name='phone' placeholder='phone' required/>
-        <input type="text" value={newUser?.email} name='email' placeholder='email' required/>
+        <input type="text" value={newUser.fullName} onChange={handleChange} name='fullName' placeholder='fullname' required/>
+        <input type="text" value={newUser.address} onChange={handleChange} name='address' placeholder='address' required/>
+        <input type="text" value={newUser.phoneNumber} onChange={handleChange} name='phoneNumber' placeholder='phone' required/>
+        <input type="text" value={newUser.email} onChange={handleChange} name='email' placeholder='email' required/>
         <CreateButton>Create User</CreateButton>
     </FormCreateUsers>
   )
