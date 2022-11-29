@@ -16,6 +16,9 @@ type UserContext = {
   users: User[],
   deleteUser: (id:number) => void
   editUser: (id:number) => void
+  userIdActive: number | null
+  updateUser: boolean
+  updateUserData: ({fullName,address,email,phoneNumber}:Partial<CreatedUser>) => void,
 }
 
 

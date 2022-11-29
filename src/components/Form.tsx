@@ -31,15 +31,22 @@ const FormCreateUsers = styled.form`
 `
 
 const CreateButton = styled(Button)`
-    background-color: blueviolet;
+    background-color: #2b37e2;
     &:hover{
-        border: 2px solid #8f07ce;
+        border: 2px solid #0725ce;
+    }
+`
+
+const UpdateButton = styled(Button)`
+    background-color: #c313d3;
+    &:hover{
+        border: 2px solid #810a6d;
     }
 `
 
 const Form = () => {
 
-  const {createNewUser} = useUser()
+  const {createNewUser, updateUser, updateUserData} = useUser()
 
   const [newUser, setNewUser] = useState<FormState['inputValues']>({
     fullName:'', 
@@ -50,14 +57,25 @@ const Form = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    createNewUser(newUser)
-    setNewUser({
+    if(updateUser){
+      updateUserData(newUser)
+      setNewUser({
         fullName:'', 
         address:'',
         phoneNumber: '',
         email:''
+    })
+    } else {
+      createNewUser(newUser)
+      setNewUser({
+          fullName:'', 
+          address:'',
+          phoneNumber: '',
+          email:''
       })
-  }
+      }
+    }
+
 
   const handleChange = (e:React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setNewUser({
@@ -68,11 +86,11 @@ const Form = () => {
 
   return (
     <FormCreateUsers onSubmit={handleSubmit}>
-        <input type="text" value={newUser.fullName} onChange={handleChange} name='fullName' placeholder='fullname' required/>
-        <input type="text" value={newUser.address} onChange={handleChange} name='address' placeholder='address' required/>
-        <input type="text" value={newUser.phoneNumber} onChange={handleChange} name='phoneNumber' placeholder='phone' required/>
-        <input type="text" value={newUser.email} onChange={handleChange} name='email' placeholder='email' required/>
-        <CreateButton>Create User</CreateButton>
+        <input type="text" value={newUser.fullName} onChange={handleChange} name='fullName' placeholder='fullname' required={!updateUser}/>
+        <input type="text" value={newUser.address} onChange={handleChange} name='address' placeholder='address' required={!updateUser}/>
+        <input type="text" value={newUser.phoneNumber} onChange={handleChange} name='phoneNumber' placeholder='phone' required={!updateUser}/>
+        <input type="text" value={newUser.email} onChange={handleChange} name='email' placeholder='email' required={!updateUser}/>
+        {updateUser?<UpdateButton>Update User</UpdateButton>:<CreateButton>Create User</CreateButton>}
     </FormCreateUsers>
   )
 }

@@ -47,6 +47,7 @@ const HeadRow = styled.tr`
 `
 
 const BodyRow = styled.tr`
+    background-color: {} ;
     & td{
         font-size: .9rem;
         outline: 1px solid #f6eefa;
@@ -55,9 +56,14 @@ const BodyRow = styled.tr`
     }
 `
 
+const SelectedRow = styled(BodyRow)`
+    background-color: #be68b7;
+    color: #f8fff8;
+`
+
 const Table = () => {
 
-    const {users, deleteUser, editUser} = useUser()
+    const {users, deleteUser, editUser, userIdActive} = useUser()
 
   return (
     <TableUsers>
@@ -72,8 +78,7 @@ const Table = () => {
         </thead>
         <tbody>
             {users.map(({id,fullName,address,email,phoneNumber}:User) => {
-                return (
-                    <BodyRow key={id} >
+                const children = <>
                     <td>{fullName}</td>
                     <td>{address}</td>
                     <td>{phoneNumber}</td>
@@ -82,7 +87,8 @@ const Table = () => {
                         <DeleteButton onClick={() => deleteUser(id)}>Delete</DeleteButton>
                         <EditButton onClick={() => editUser(id)}>Edit</EditButton>
                     </td>
-                    </BodyRow>)
+                </>
+                return (id===userIdActive?<SelectedRow key={id}>{children}</SelectedRow>:<BodyRow key={id}>{children}</BodyRow>)
                 })
             }
         </tbody>
